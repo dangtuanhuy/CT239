@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2 class="text-center">Edit Regions</h2>
 
 
 @using (Html.BeginForm())
@@ -36,14 +36,21 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <button type="submit" class="btn btn-success" aria-label="Left Align">
+                    <span class="fa fa-floppy-o" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("Index", "Regions")" class="btn btn-default">
+        <i class="fa fa-sort-alpha-asc"></i>
+        <span>
+
+        </span>
+    </a>
 </div>
 
 @section Scripts {
