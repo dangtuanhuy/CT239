@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Edit</h2>
@@ -15,14 +15,14 @@
     <div class="form-horizontal">
         <h4>Color</h4>
         <hr />
-        @Html.ValidationSummary(true)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ColerId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ColerName, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ColerName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ColerName)
-                @Html.ValidationMessageFor(model => model.ColerName)
+                @Html.EditorFor(model => model.ColerName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ColerName, "", new { @class = "text-danger" })
             </div>
         </div>
 

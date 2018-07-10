@@ -161,7 +161,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\ColorController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ColorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RegionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SizesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -1167,17 +1167,17 @@
       <DependentUpon>ElectricStore.edmx</DependentUpon>
       <LastGenOutput>ElectricStore.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Admin\Views\Color\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Color\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Color\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Color\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Color\Index.cshtml" />
     <Content Include="DB\EShop.zip" />
     <Content Include="Areas\Admin\Views\Sizes\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Sizes\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Sizes\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Sizes\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Sizes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Colors\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Colors\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Colors\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Colors\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Colors\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

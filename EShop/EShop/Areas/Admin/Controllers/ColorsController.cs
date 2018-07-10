@@ -10,17 +10,17 @@ using EShop.Models;
 
 namespace EShop.Areas.Admin.Controllers
 {
-    public class ColorController : Controller
+    public class ColorsController : Controller
     {
         private ElectricStoreEntities db = new ElectricStoreEntities();
 
-        // GET: /Admin/Color/
+        // GET: Admin/Colors
         public ActionResult Index()
         {
             return View(db.Colors.ToList());
         }
 
-        // GET: /Admin/Color/Details/5
+        // GET: Admin/Colors/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,18 +35,18 @@ namespace EShop.Areas.Admin.Controllers
             return View(color);
         }
 
-        // GET: /Admin/Color/Create
+        // GET: Admin/Colors/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Admin/Color/Create
+        // POST: Admin/Colors/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ColerId,ColerName")] Color color)
+        public ActionResult Create([Bind(Include = "ColerId,ColerName")] Color color)
         {
             if (ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace EShop.Areas.Admin.Controllers
             return View(color);
         }
 
-        // GET: /Admin/Color/Edit/5
+        // GET: Admin/Colors/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,12 +73,12 @@ namespace EShop.Areas.Admin.Controllers
             return View(color);
         }
 
-        // POST: /Admin/Color/Edit/5
+        // POST: Admin/Colors/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ColerId,ColerName")] Color color)
+        public ActionResult Edit([Bind(Include = "ColerId,ColerName")] Color color)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace EShop.Areas.Admin.Controllers
             return View(color);
         }
 
-        // GET: /Admin/Color/Delete/5
+        // GET: Admin/Colors/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,7 +104,7 @@ namespace EShop.Areas.Admin.Controllers
             return View(color);
         }
 
-        // POST: /Admin/Color/Delete/5
+        // POST: Admin/Colors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
