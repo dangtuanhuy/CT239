@@ -165,7 +165,7 @@
     <Compile Include="Areas\Admin\Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ColorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Home1Controller.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PromitionsController.cs" />
@@ -1291,7 +1291,7 @@
     <Content Include="Areas\Admin\Views\Promitions\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Promitions\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Promitions\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home1\Index1.cshtml" />
     <Content Include="Content\LibraryUser\font\Amble-Regular-webfont.ttf" />
     <Content Include="Content\LibraryUser\images\Thumbs.db" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
