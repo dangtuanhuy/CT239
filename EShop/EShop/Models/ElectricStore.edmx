@@ -100,6 +100,7 @@
           </Key>
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="EmployeeCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Note" Type="ntext" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -163,6 +164,7 @@
           </Key>
           <Property Name="PromotionId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Gift" Type="ntext" />
         </EntityType>
         <EntityType Name="Promition">
           <Key>
@@ -431,6 +433,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ElectricStoreModelStoreContainer">
           <EntitySet Name="About" EntityType="Self.About" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
@@ -605,8 +638,19 @@
           <Property Name="ReportsTo" Type="Int32" />
           <Property Name="RegionId" Type="Int32" />
           <NavigationProperty Name="Region" Relationship="Self.FK_Employee_Region" FromRole="Employee" ToRole="Region" />
+          <NavigationProperty Name="Employee_Role" Relationship="Self.FK_Employee_Role_Employee" FromRole="Employee" ToRole="Employee_Role" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Employee" FromRole="Employee" ToRole="Order" />
-          <NavigationProperty Name="Roles" Relationship="Self.Employee_Role" FromRole="Employee" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Employee_Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="EmployeeCode" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Role_Employee" FromRole="Employee_Role" ToRole="Employee" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Employee_Role_Role" FromRole="Employee_Role" ToRole="Role" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -671,9 +715,20 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Color" Relationship="Self.FK_Product_Color" FromRole="Product" ToRole="Color" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Product" FromRole="Product" ToRole="OrderDetails" />
+          <NavigationProperty Name="Product_Promotion" Relationship="Self.FK_Product_Promotion_Product" FromRole="Product" ToRole="Product_Promotion" />
           <NavigationProperty Name="Size" Relationship="Self.FK_Product_Size" FromRole="Product" ToRole="Size" />
           <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier" FromRole="Product" ToRole="Supplier" />
-          <NavigationProperty Name="Promitions" Relationship="Self.Product_Promotion" FromRole="Product" ToRole="Promition" />
+        </EntityType>
+        <EntityType Name="Product_Promotion">
+          <Key>
+            <PropertyRef Name="PromotionId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="PromotionId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Gift" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Promotion_Product" FromRole="Product_Promotion" ToRole="Product" />
+          <NavigationProperty Name="Promition" Relationship="Self.FK_Product_Promotion_Promition" FromRole="Product_Promotion" ToRole="Promition" />
         </EntityType>
         <EntityType Name="Promition">
           <Key>
@@ -686,7 +741,7 @@
           <Property Name="PromotionStatus" Type="Boolean" />
           <Property Name="PromotionOpen" Type="DateTime" Precision="0" />
           <Property Name="PromotionClose" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Products" Relationship="Self.Product_Promotion" FromRole="Promition" ToRole="Product" />
+          <NavigationProperty Name="Product_Promotion" Relationship="Self.FK_Product_Promotion_Promition" FromRole="Promition" ToRole="Product_Promotion" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -704,7 +759,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employees" Relationship="Self.Employee_Role" FromRole="Role" ToRole="Employee" />
+          <NavigationProperty Name="Employee_Role" Relationship="Self.FK_Employee_Role_Role" FromRole="Role" ToRole="Employee_Role" />
         </EntityType>
         <EntityType Name="Shipper">
           <Key>
@@ -808,6 +863,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Employee_Role_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee_Role" Type="Self.Employee_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeCode" />
+            </Principal>
+            <Dependent Role="Employee_Role">
+              <PropertyRef Name="EmployeeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -819,6 +888,20 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="EmployeeCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Role_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Employee_Role" Type="Self.Employee_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Role">
+              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -864,6 +947,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_Promotion_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product_Promotion" Type="Self.Product_Promotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="Product_Promotion">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_Size">
           <End Role="Size" Type="Self.Size" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -892,13 +989,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Employee_Role">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <End Role="Role" Type="Self.Role" Multiplicity="*" />
-        </Association>
-        <Association Name="Product_Promotion">
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <End Role="Promition" Type="Self.Promition" Multiplicity="*" />
+        <Association Name="FK_Product_Promotion_Promition">
+          <End Role="Promition" Type="Self.Promition" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product_Promotion" Type="Self.Product_Promotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promition">
+              <PropertyRef Name="PromotionId" />
+            </Principal>
+            <Dependent Role="Product_Promotion">
+              <PropertyRef Name="PromotionId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ElectricStoreEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Abouts" EntityType="Self.About" />
@@ -908,10 +1011,12 @@
           <EntitySet Name="Contacts" EntityType="Self.Contact" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Employee_Role" EntityType="Self.Employee_Role" />
           <EntitySet Name="Menus" EntityType="Self.Menu" />
           <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
           <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Product_Promotion" EntityType="Self.Product_Promotion" />
           <EntitySet Name="Promitions" EntityType="Self.Promition" />
           <EntitySet Name="Regions" EntityType="Self.Region" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
@@ -935,9 +1040,17 @@
             <End Role="Region" EntitySet="Regions" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <AssociationSet Name="FK_Employee_Role_Employee" Association="Self.FK_Employee_Role_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employee_Role" EntitySet="Employee_Role" />
+          </AssociationSet>
           <AssociationSet Name="FK_Order_Employee" Association="Self.FK_Order_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Role_Role" Association="Self.FK_Employee_Role_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Employee_Role" EntitySet="Employee_Role" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Shipper" Association="Self.FK_Order_Shipper">
             <End Role="Shipper" EntitySet="Shippers" />
@@ -951,6 +1064,10 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_Product_Promotion_Product" Association="Self.FK_Product_Promotion_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Product_Promotion" EntitySet="Product_Promotion" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_Size" Association="Self.FK_Product_Size">
             <End Role="Size" EntitySet="Sizes" />
             <End Role="Product" EntitySet="Products" />
@@ -959,15 +1076,52 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="Employee_Role" Association="Self.Employee_Role">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="Role" EntitySet="Roles" />
-          </AssociationSet>
-          <AssociationSet Name="Product_Promotion" Association="Self.Product_Promotion">
-            <End Role="Product" EntitySet="Products" />
+          <AssociationSet Name="FK_Product_Promotion_Promition" Association="Self.FK_Product_Promotion_Promition">
             <End Role="Promition" EntitySet="Promitions" />
+            <End Role="Product_Promotion" EntitySet="Product_Promotion" />
           </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ElectricStoreModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ElectricStoreModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1069,6 +1223,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Employee_Role">
+            <EntityTypeMapping TypeName="ElectricStoreModel.Employee_Role">
+              <MappingFragment StoreEntitySet="Employee_Role">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Menus">
             <EntityTypeMapping TypeName="ElectricStoreModel.Menu">
               <MappingFragment StoreEntitySet="Menu">
@@ -1124,6 +1287,15 @@
                 <ScalarProperty Name="ProductImg" ColumnName="ProductImg" />
                 <ScalarProperty Name="ColorId" ColumnName="ColorId" />
                 <ScalarProperty Name="SizeId" ColumnName="SizeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Promotion">
+            <EntityTypeMapping TypeName="ElectricStoreModel.Product_Promotion">
+              <MappingFragment StoreEntitySet="Product_Promotion">
+                <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Gift" ColumnName="Gift" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1205,22 +1377,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Employee_Role" TypeName="ElectricStoreModel.Employee_Role" StoreEntitySet="Employee_Role">
-            <EndProperty Name="Employee">
-              <ScalarProperty Name="EmployeeCode" ColumnName="EmployeeCode" />
-            </EndProperty>
-            <EndProperty Name="Role">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="Product_Promotion" TypeName="ElectricStoreModel.Product_Promotion" StoreEntitySet="Product_Promotion">
-            <EndProperty Name="Product">
-              <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-            </EndProperty>
-            <EndProperty Name="Promition">
-              <ScalarProperty Name="PromotionId" ColumnName="PromotionId" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ElectricStoreModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ElectricStoreModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ElectricStoreModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ElectricStoreModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectricStoreModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ElectricStoreModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectricStoreModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ElectricStoreModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ElectricStoreModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

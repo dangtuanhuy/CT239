@@ -18,7 +18,7 @@ namespace EShop.Models
         public Product()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
-            this.Promitions = new HashSet<Promition>();
+            this.Product_Promotion = new HashSet<Product_Promotion>();
         }
     
         public int ProductId { get; set; }
@@ -38,9 +38,9 @@ namespace EShop.Models
         public virtual Color Color { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product_Promotion> Product_Promotion { get; set; }
         public virtual Size Size { get; set; }
         public virtual Supplier Supplier { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Promition> Promitions { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace EShop.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Promition()
         {
-            this.Products = new HashSet<Product>();
+            this.Product_Promotion = new HashSet<Product_Promotion>();
         }
     
         public int PromotionId { get; set; }
@@ -29,6 +29,6 @@ namespace EShop.Models
         public Nullable<System.DateTime> PromotionClose { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product_Promotion> Product_Promotion { get; set; }
     }
 }

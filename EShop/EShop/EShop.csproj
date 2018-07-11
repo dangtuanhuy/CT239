@@ -168,12 +168,11 @@
     <Compile Include="Areas\Admin\Controllers\EmployeesController.cs" />
     <Compile Include="Areas\Admin\Controllers\Home1Controller.cs" />
     <Compile Include="Areas\Admin\Controllers\MenusController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\PromitionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RegionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShippersController.cs" />
     <Compile Include="Areas\Admin\Controllers\SizesController.cs" />
     <Compile Include="Areas\Admin\Controllers\SuppliersController.cs" />
+    <Compile Include="Areas\Admin\Models\RegionMetaData.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -217,6 +216,9 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ElectricStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Employee_Role.cs">
+      <DependentUpon>ElectricStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Menu.cs">
@@ -229,6 +231,9 @@
       <DependentUpon>ElectricStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
+      <DependentUpon>ElectricStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product_Promotion.cs">
       <DependentUpon>ElectricStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Promition.cs">
@@ -244,6 +249,12 @@
       <DependentUpon>ElectricStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Size.cs">
+      <DependentUpon>ElectricStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ElectricStore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>ElectricStore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs">
@@ -1224,24 +1235,6 @@
     <Content Include="Areas\Admin\Views\Regions\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Regions\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Regions\Index.cshtml" />
-    <EntityDeploy Include="Models\ElectricStore.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ElectricStore.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ElectricStore.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ElectricStore.edmx</DependentUpon>
-      <LastGenOutput>ElectricStore.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ElectricStore.edmx.diagram">
-      <DependentUpon>ElectricStore.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\ElectricStore.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ElectricStore.edmx</DependentUpon>
-      <LastGenOutput>ElectricStore.cs</LastGenOutput>
-    </Content>
-    <Content Include="DB\EShop.zip" />
     <Content Include="Areas\Admin\Views\Sizes\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Sizes\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Sizes\Details.cshtml" />
@@ -1262,11 +1255,6 @@
     <Content Include="Areas\Admin\Views\Shippers\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Shippers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shippers\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Branches\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Branches\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Branches\Details.cshtml" />
@@ -1287,11 +1275,6 @@
     <Content Include="Areas\Admin\Views\Menus\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Menus\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Promitions\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Promitions\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Promitions\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Promitions\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Promitions\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Home1\Index1.cshtml" />
     <Content Include="Content\LibraryUser\font\Amble-Regular-webfont.ttf" />
     <Content Include="Content\LibraryUser\images\Thumbs.db" />
@@ -1300,6 +1283,24 @@
     <Content Include="Areas\Admin\Views\Employees\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Employees\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Employees\Index.cshtml" />
+    <EntityDeploy Include="Models\ElectricStore.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ElectricStore.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ElectricStore.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ElectricStore.edmx</DependentUpon>
+      <LastGenOutput>ElectricStore.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ElectricStore.edmx.diagram">
+      <DependentUpon>ElectricStore.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\ElectricStore.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ElectricStore.edmx</DependentUpon>
+      <LastGenOutput>ElectricStore.cs</LastGenOutput>
+    </Content>
+    <Content Include="DB\ES.zip" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1352,7 +1353,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
